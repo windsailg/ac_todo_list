@@ -51,11 +51,32 @@ app.post('/todos', (req, res) => {
 })
 
 
+
 app.get('/todos/:id', (req, res) => {
     const id = req.params.id
     return todo.findById(id)
         .lean()
         .then( todoItem => res.render('detail', { todoItem }))
+        .catch(error => console.log(error))
+})
+
+app.get('/todos/:id/edit', (req, res) => {
+    const id = req.params.id
+    return todo.findById(id)
+        .lean()
+        .then( todoItem => res.render('edit', { todoItem }))
+        .catch(error => console.log(error))
+})
+
+app.post('/todos/:id/edit', (req, res) => {
+    const id = req.params.id
+    const name = req.body.name
+    return todo.findById(id)
+        .then(todoItem => {
+            todoItem.name = name
+            return todoItem.save()
+        })
+        .then(() => res.redirect(`/todos/${id}`))
         .catch(error => console.log(error))
 })
 
