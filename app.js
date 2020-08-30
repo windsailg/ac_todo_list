@@ -50,8 +50,6 @@ app.post('/todos', (req, res) => {
         .catch(error => console.log(error))
 })
 
-
-
 app.get('/todos/:id', (req, res) => {
     const id = req.params.id
     return todo.findById(id)
@@ -80,7 +78,13 @@ app.post('/todos/:id/edit', (req, res) => {
         .catch(error => console.log(error))
 })
 
-
+app.post('/todos/:id/delete', (req, res) => {
+    const id = req.params.id
+    return todo.findById(id)
+        .then(todoItem => todoItem.remove())
+        .then( () => res.redirect('/'))
+        .catch(error => console.log(error))
+})
 
 
 app.listen(port, () => {
