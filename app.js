@@ -8,6 +8,10 @@ mongoose.connect('mongodb://localhost/todo-list',
 
 const db = mongoose.connection
 const exphbs = require('express-handlebars')
+const todo = require('./todo')
+
+const bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.engine('hbs', exphbs({
     defaultLayout: 'main',
@@ -25,9 +29,27 @@ db.once('open', () => {
 
 
 app.get('/', (req, res) => {
-    // res.send('hello world')
-    res.render('index')
+    todo.find()//從資料庫找出資料
+        .lean()//轉圜單純JS物件
+        .then(todos => res.render('index', { todos }))
+        .catch(error => console.error(error))
 })
+
+app.get('/todos/new', (req, res) => {
+    return res.render('new')
+})
+
+app.post('/todos', (req, res) => {
+    const name = req.body.name
+    // const todos = new todo({ name })
+    // return todos.save()
+    //     .then(() => res.redirect('/'))
+    //     .catch(error => console.error(error))
+    return todo.create({ name })
+        .then(() => res.redirect('/'))
+        .catch(error => console.log(error))
+})
+
 
 app.listen(port, () => {
     console.log(`Express is running on http://localhost:${port}`)
