@@ -4,7 +4,7 @@ const port = 3000
 
 const mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost/todo-list', 
-{uneNewUrlParser: true, useUnifiedTopology: true})
+{useNewUrlParser: true, useUnifiedTopology: true})
 
 const db = mongoose.connection
 

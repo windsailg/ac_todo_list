@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 const schema = mongoose.Schema
 const todoSchema = new schema({
-    name:{
+    name: {
         type: String,
-        required: true,
+        required: true
     }
 })
 
