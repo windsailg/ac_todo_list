@@ -15,6 +15,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 const methodOverride = require('method-override')
 app.use(methodOverride('_method'))
 
+const routes = require('./routes')
+
 app.engine('hbs', exphbs({
   defaultLayout: 'main',
   extname: '.hbs'
@@ -29,61 +31,7 @@ db.once('open', () => {
   console.log('mongoDB connected')
 })
 
-app.get('/', (req, res) => {
-  todo.find()// 從資料庫找出資料
-    .lean()// 轉圜單純JS物件
-    .sort({ _id: 'asc' })// desc
-    .then(todos => res.render('index', { todos }))
-    .catch(error => console.error(error))
-})
-
-app.get('/todos/new', (req, res) => {
-  return res.render('new')
-})
-
-app.post('/todos', (req, res) => {
-  const name = req.body.name
-  return todo.create({ name })
-    .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
-})
-
-app.get('/todos/:id', (req, res) => {
-  const id = req.params.id
-  return todo.findById(id)
-    .lean()
-    .then(todoItem => res.render('detail', { todoItem }))
-    .catch(error => console.log(error))
-})
-
-app.get('/todos/:id/edit', (req, res) => {
-  const id = req.params.id
-  return todo.findById(id)
-    .lean()
-    .then(todoItem => res.render('edit', { todoItem }))
-    .catch(error => console.log(error))
-})
-
-app.put('/todos/:id', (req, res) => {
-  const id = req.params.id
-  const { name, isDone} = req.body
-  return todo.findById(id)
-    .then(todoItem => {
-      todoItem.name = name
-      todoItem.isDone = isDone === 'on'
-      return todoItem.save()
-    })
-    .then(() => res.redirect(`/todos/${id}`))
-    .catch(error => console.log(error))
-})
-
-app.delete('/todos/:id', (req, res) => {
-  const id = req.params.id
-  return todo.findById(id)
-    .then(todoItem => todoItem.remove())
-    .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
-})
+app.use(routes)
 
 app.listen(port, () => {
   console.log(`Express is running on http://localhost:${port}`)
