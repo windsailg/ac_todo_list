@@ -12,6 +12,8 @@ const todo = require('./models/todo')
 
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: true }))
+const methodOverride = require('method-override')
+app.use(methodOverride('_method'))
 
 app.engine('hbs', exphbs({
   defaultLayout: 'main',
@@ -62,7 +64,7 @@ app.get('/todos/:id/edit', (req, res) => {
     .catch(error => console.log(error))
 })
 
-app.post('/todos/:id/edit', (req, res) => {
+app.put('/todos/:id', (req, res) => {
   const id = req.params.id
   const { name, isDone} = req.body
   return todo.findById(id)
@@ -75,7 +77,7 @@ app.post('/todos/:id/edit', (req, res) => {
     .catch(error => console.log(error))
 })
 
-app.post('/todos/:id/delete', (req, res) => {
+app.delete('/todos/:id', (req, res) => {
   const id = req.params.id
   return todo.findById(id)
     .then(todoItem => todoItem.remove())
