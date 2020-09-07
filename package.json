@@ -1,7 +1,6 @@
 {
-  "name": "todo_list",
+  "name": "-y",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -16,5 +15,14 @@
     "express": "^4.17.1",
     "express-handlebars": "^5.1.0",
     "mongoose": "^5.10.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/windsailg/ac_todo_list.git"
+  },
+  "bugs": {
+    "url": "https://github.com/windsailg/ac_todo_list/issues"
+  },
+  "homepage": "https://github.com/windsailg/ac_todo_list#readme",
+  "description": ""
 }
