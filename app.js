@@ -1,7 +1,7 @@
 const express = require('express')
+const exphbs = require('express-handlebars')
 const app = express()
 const port = 3001
-const exphbs = require('express-handlebars')
 
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
