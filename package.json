@@ -15,7 +15,9 @@
     "express": "^4.17.1",
     "express-handlebars": "^5.1.0",
     "method-override": "^3.0.0",
-    "mongoose": "^5.10.2"
+    "mongoose": "^5.10.2",
+    "vue": "^2.6.12",
+    "vuex": "^3.5.1"
   },
   "repository": {
     "type": "git",
