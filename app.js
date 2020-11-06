@@ -10,6 +10,7 @@ const routes = require('./routes')
 
 const usePassport = require('./config/passport')
 usePassport(app)
+
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 

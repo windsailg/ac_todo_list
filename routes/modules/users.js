@@ -4,6 +4,7 @@ const router = express.Router()
 const passport = require('passport')
 
 const users = require('../../models/users')
+const { route } = require('./home')
 
 router.get('/login', (req, res) => {
   res.render('login')
@@ -42,10 +43,9 @@ router.post('/register', (req, res) => {
     })
 })
 
-// router.post('/', (req, res) => {
-//   const name = req.body.name
-//   return todo.create({ name })
-//     .then(() => res.redirect('/'))
-//     .catch(error => console.log(error))
-// })
+router.get('/logout', (req, res) => {
+  req.logout()
+  res.redirect('/users/login')
+})
+
 module.exports = router
