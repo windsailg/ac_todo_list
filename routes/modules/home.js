@@ -5,9 +5,10 @@ const todo = require('../../models/todo')
 router.use(express.static('public'))
 
 router.get('/', (req, res) => {
-  todo.find()// 從資料庫找出資料
-    .lean()// 轉圜單純JS物件
-    .sort({ _id: 'asc' })// desc
+  const userId = req.user._id
+  todo.find({ userId })
+    .lean()
+    .sort({ _id: 'asc' })
     .then(todos => res.render('index', { todos }))
     .catch(error => console.error(error))
 })

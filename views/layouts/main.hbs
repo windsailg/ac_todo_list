@@ -12,18 +12,31 @@
     
 </head>
 <body class="bg-light">
+    
     <header >
         <nav class="navbar navbar-dark bg-primary justify-content-between shadow-sm">
 
-            <a class="navbar-brand" href="/">Todo List</a>
+            <a class="navbar-brand" href="/">
+            {{#if isAuthenticated}}
+                {{user.name}}'s
+            {{/if}}
+            Todo List
+            </a>
+
+            {{!-- <a class="btn btn-outline-light mr-2 col" href="/users/login">Login</a> --}}
 
             <div class="row justify-content-end"> 
-                <a class="btn btn-outline-light mr-2 col" href="/users/login">Login</a>
-                <a class="btn  btn-secondary mr-2 col" href="/todos/new">Create</a>
+                {{#if isAuthenticated}}
+                    <a class="btn btn-outline-light mr-2 col" href="/users/logout">Logout</a>
+                    <a class="btn  btn-secondary mr-2 col" href="/todos/new">Create</a>
+                    {{else}}
+                    
+                {{/if}}
             </div>
 
         </nav>
     </header>
+
     <div class="main">
         <div class="container mt-3">
              {{{body}}}

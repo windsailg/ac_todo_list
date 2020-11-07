@@ -9,15 +9,9 @@ const PORT = process.env.PORT || 3000
 const routes = require('./routes')
 
 const usePassport = require('./config/passport')
-usePassport(app)
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
-
-app.use(routes)
-
-// create server connect
-require('./config/mongoose')
 
 // Session setting
 app.use(session({
@@ -25,6 +19,18 @@ app.use(session({
   resave: false,
   saveUUninitialized: true
 }))
+
+usePassport(app)
+app.use((req, res, next) => {
+  console.log(req.user)
+  res.locals.isAuthenticated = req.isAuthenticated()
+  res.locals.user = req.user
+  next()
+})
+app.use(routes)
+
+// create server connect
+require('./config/mongoose')
 
 // front engine
 app.engine('hbs', exphbs({
