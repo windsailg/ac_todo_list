@@ -24,6 +24,7 @@ app.use(session({
 usePassport(app)
 
 app.use(flash())
+app.use(flash())
 
 app.use((req, res, next) => {
   console.log(req.user)
