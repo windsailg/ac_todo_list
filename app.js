@@ -5,8 +5,11 @@ const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const flash = require('connect-flash')
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 const app = express()
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT
 const routes = require('./routes')
 
 const usePassport = require('./config/passport')
@@ -16,7 +19,7 @@ app.use(methodOverride('_method'))
 
 // Session setting
 app.use(session({
-  secret: 'MySecretIsVerySecret',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUUninitialized: true
 }))
@@ -27,12 +30,10 @@ app.use(flash())
 app.use(flash())
 
 app.use((req, res, next) => {
-  console.log(req.user)
   res.locals.isAuthenticated = req.isAuthenticated()
   res.locals.user = req.user
   res.locals.success_msg = req.flash('success_msg')
   res.locals.warning_msg = req.flash('warning_msg')
-
   next()
 })
 app.use(routes)
